@@ -1,0 +1,326 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Психологический тест: Найди свою природу</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/babel-standalone@7.22.10/babel.min.js"></script>
+  <style>
+    /* Tailwind CSS (minified, subset of used classes) */
+    *,::before,::after{box-sizing:border-box;border-width:0;border-style:solid;border-color:currentColor}html{line-height:1.5;-webkit-text-size-adjust:100%}body{margin:0;font-family:Arial,sans-serif;min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(to bottom,#e0f7fa,#80deea)}.text-center{text-align:center}.text-3xl{font-size:1.875rem;line-height:2.25rem}.font-bold{font-weight:700}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.font-semibold{font-weight:600}.bg-blue-500{background-color:#3b82f6}.text-white{color:#fff}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.rounded-lg{border-radius:.5rem}.hover\:bg-blue-600:hover{background-color:#2563eb}.transition-transform{transition-property:transform;transition-duration:.15s}.hover\:scale-105:hover{transform:scale(1.05)}.space-x-4>*+*{margin-left:1rem}.bg-green-500{background-color:#22c55e}.hover\:bg-green-600:hover{background-color:#16a34a}.card{background:rgba(255,255,255,.9);border-radius:1rem;padding:2rem;max-width:600px;width:90%;box-shadow:0 4px 10px rgba(0,0,0,.2)}.progress-bar{height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden}.progress-bar-fill{height:100%;background:#3b82f6;transition:width .3s ease}.text-xl{font-size:1.25rem;line-height:1.75rem}.space-y-3>*+*{margin-top:.75rem}.option-button{transition-property:all;transition-duration:.3s}.option-button:hover{background:#3b82f6;color:#fff;transform:scale(1.02)}.option-button.selected{background:#2563eb;color:#fff}.w-full{width:100%}.text-left{text-align:left}.p-3{padding:.75rem}.border{border-width:1px}.bg-white{background-color:#fff}.bg-gray-300{background-color:#d1d5db}.text-gray-800{color:#1f2937}.hover\:bg-gray-400:hover{background-color:#9ca3af}.text-gray-500{color:#6b7280}.cursor-not-allowed{cursor:not-allowed}.error-message{color:red;text-align:center;margin-top:1rem}.flex{display:flex}.justify-between{justify-content:space-between}.mt-6{margin-top:1.5rem}.result-bg{background:linear-gradient(to bottom,#a7f3d0,#34d399)}
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const questions = [
+      {
+        question: "Как вы предпочитаете проводить свободное время?",
+        options: [
+          "A. Изучаю что-то новое в спокойной обстановке",
+          "B. В компании друзей за активным отдыхом",
+          "C. В одиночестве за домашними хобби",
+          "D. Ищу события с яркими впечатлениями"
+        ]
+      },
+      {
+        question: "Что для вас означает фраза «искры в глазах»?",
+        options: [
+          "A. Интеллектуальный азарт при решении задач",
+          "B. Улыбка близкого человека",
+          "C. Чувство уютной безопасности",
+          "D. Предвкушение чего-то захватывающего"
+        ]
+      },
+      {
+        question: "Ваш идеальный пейзаж для фотосессии:",
+        options: [
+          "A. Медитирующее озеро на рассвете",
+          "B. Уютное кафе на улочке старого города",
+          "C. Мрачный замок в тумане",
+          "D. Яркие огни и движущиеся силуэты"
+        ]
+      },
+      {
+        question: "Какая мелодия больше всего вам подходит?",
+        options: [
+          "A. Лёгкая классика под шорох страниц",
+          "B. Джаз в полумраке бара",
+          "C. Звуки природы и безмолвия",
+          "D. Ритм, под который хочется двигаться"
+        ]
+      },
+      {
+        question: "Если бы вы писали о себе автобиографию, вы бы назвали её…",
+        options: [
+          "A. «Глубины души»",
+          "B. «В кругу друзей»",
+          "C. «Уединение»",
+          "D. «Гонка за адреналином»"
+        ]
+      },
+      {
+        question: "Какой элемент декора вдохновляет вас больше всего?",
+        options: [
+          "A. Тёплый плед и горящая свеча",
+          "B. Яркие картины на стенах",
+          "C. Минимализм и пустота пространства",
+          "D. Множество огней и движущихся деталей"
+        ]
+      },
+      {
+        question: "При выборе следующей книги вы обращаете внимание на:",
+        options: [
+          "A. Глубину философских тем",
+          "B. Истории о дружбе и приключениях",
+          "C. Спокойные рассказы о природе",
+          "D. Динамичный сюжет с неожиданными поворотами"
+        ]
+      },
+      {
+        question: "Ваше идеальное утро начинается с…",
+        options: [
+          "A. Медитации и спокойных мыслей",
+          "B. Завтрака с друзьями",
+          "C. Чашки чая и чтения",
+          "D. Планирования насыщенного дня"
+        ]
+      },
+      {
+        question: "Что вас больше всего заводит в разговоре?",
+        options: [
+          "A. Философские вопросы о жизни",
+          "B. Лёгкие шутки и дружеский треп",
+          "C. Тишина и вдумчивые паузы",
+          "D. Истории о рекордах и достижениях"
+        ]
+      },
+      {
+        question: "Если бы вы могли на день превратиться в любое явление, вы бы стали…",
+        options: [
+          "A. Умиротворён ным тихим лесом",
+          "B. Громкой веселой компанией",
+          "C. Тихим ручейком",
+          "D. Вихрем эмоций и скорости"
+        ]
+      }
+    ];
+
+    function App() {
+      const [currentQuestion, setCurrentQuestion] = React.useState(-1);
+      const [answers, setAnswers] = React.useState({});
+      const [selectedOption, setSelectedOption] = React.useState(null);
+      const [error, setError] = React.useState(null);
+
+      React.useEffect(() => {
+        if (currentQuestion >= 0 && answers[currentQuestion]) {
+          setSelectedOption(answers[currentQuestion]);
+        } else {
+          setSelectedOption(null);
+        }
+        if (currentQuestion >= questions.length) {
+          document.body.classList.add('result-bg');
+        } else {
+          document.body.classList.remove('result-bg');
+        }
+      }, [currentQuestion, answers]);
+
+      const startQuiz = () => {
+        try {
+          setCurrentQuestion(0);
+          setError(null);
+        } catch (e) {
+          setError("Ошибка при запуске теста");
+        }
+      };
+
+      const handleOptionSelect = (option) => {
+        try {
+          setSelectedOption(option);
+          setError(null);
+        } catch (e) {
+          setError("Ошибка при выборе ответа");
+        }
+      };
+
+      const handleNext = () => {
+        if (selectedOption) {
+          try {
+            setAnswers({ ...answers, [currentQuestion]: selectedOption });
+            setSelectedOption(null);
+            setCurrentQuestion(currentQuestion + 1);
+            setError(null);
+          } catch (e) {
+            setError("Ошибка при переходе к следующему вопросу");
+          }
+        } else {
+          setError("Пожалуйста, выберите ответ");
+        }
+      };
+
+      const handleBack = () => {
+        try {
+          setCurrentQuestion(currentQuestion - 1);
+          setError(null);
+        } catch (e) {
+          setError("Ошибка при возврате назад");
+        }
+      };
+
+      const handleFinish = () => {
+        if (selectedOption) {
+          try {
+            setAnswers({ ...answers, [currentQuestion]: selectedOption });
+            setCurrentQuestion(questions.length);
+            setError(null);
+          } catch (e) {
+            setError("Ошибка при завершении теста");
+          }
+        } else {
+          setError("Пожалуйста, выберите ответ");
+        }
+      };
+
+      const handleRestart = () => {
+        try {
+          setCurrentQuestion(-1);
+          setAnswers({});
+          setSelectedOption(null);
+          setError(null);
+        } catch (e) {
+          setError("Ошибка при перезапуске теста");
+        }
+      };
+
+      const progress = currentQuestion >= 0 && currentQuestion < questions.length
+        ? ((currentQuestion + 1) / questions.length) * 100
+        : 0;
+
+      if (currentQuestion === -1) {
+        return (
+          <div className="card text-center">
+            <h1 className="text-3xl font-bold mb-4">Психологический тест: Найди свою природу</h1>
+            <p className="mb-6">Ответь на 10 вопросов и узнай кое-что неожиданное о себе!</p>
+            <button
+              className="start-button bg-blue-500 text-white px-6 py-3 rounded-lg text-lg hover:bg-blue-600 transition-transform"
+              onClick={startQuiz}
+            >
+              Начать тест
+            </button>
+            {error && <p className="error-message">{error}</p>}
+          </div>
+        );
+      }
+
+      if (currentQuestion >= questions.length) {
+        return (
+          <div className="card text-center">
+            <h1 className="text-3xl font-bold mb-4">Результат: У вас гиперфиксация на аттракционах! 🎢</h1>
+            <p className="mb-6">Рекомендованное лечение: посещение „Острова Мечты“</p>
+            <div className="flex justify-center space-x-4">
+              <button
+                className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600"
+                onClick={handleRestart}
+              >
+                Пройти заново 🔁
+              </button>
+              <a
+                href="https://dreamisland.ru/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600"
+              >
+                Узнать, где находится парк 📍
+              </a>
+            </div>
+            {error && <p className="error-message">{error}</p>}
+          </div>
+        );
+      }
+
+      return (
+        <div className="card">
+          <div className="progress-bar mb-4">
+            <div className="progress-bar-fill" style={{ width: `${progress}%` }}></div>
+          </div>
+          <h2 className="text-xl font-bold mb-4">Вопрос {currentQuestion + 1} из 10</h2>
+          <p className="text-lg font-semibold mb-6">{questions[currentQuestion].question}</p>
+          <div className="space-y-3">
+            {questions[currentQuestion].options.map((option, index) => (
+              <button
+                key={index}
+                className={`option-button w-full text-left p-3 rounded-lg border ${selectedOption === option || answers[currentQuestion] === option ? 'selected' : 'bg-white'}`}
+                onClick={() => handleOptionSelect(option)}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+          <div className="flex justify-between mt-6">
+            {currentQuestion > 0 && (
+              <button
+                className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400"
+                onClick={handleBack}
+              >
+                Назад ⬅️
+              </button>
+            )}
+            <button
+              className={`px-4 py-2 rounded-lg ${selectedOption ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+              onClick={currentQuestion === questions.length - 1 ? handleFinish : handleNext}
+              disabled={!selectedOption}
+            >
+              {currentQuestion === questions.length - 1 ? 'Завершить' : 'Далее ➡️'}
+            </button>
+          </div>
+          {error && <p className="error-message">{error}</p>}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<React.StrictMode><App /></React.StrictMode>);
+  </script>
+</body>
+</html>
