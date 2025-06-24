@@ -1,59 +1,41 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Психологический тест: Найди свою природу</title>
-  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/babel-standalone@7.22.10/babel.min.js"></script>
   <style>
     /* Tailwind CSS (minified, subset of used classes) */
-    *,::before,::after{box-sizing:border-box;border-width:0;border-style:solid;border-color:currentColor}html{line-height:1.5;-webkit-text-size-adjust:100%}body{margin:0;font-family:Arial,sans-serif;min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(to bottom,#e0f7fa,#80deea)}.text-center{text-align:center}.text-3xl{font-size:1.875rem;line-height:2.25rem}.font-bold{font-weight:700}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.font-semibold{font-weight:600}.bg-blue-500{background-color:#3b82f6}.text-white{color:#fff}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.rounded-lg{border-radius:.5rem}.hover\:bg-blue-600:hover{background-color:#2563eb}.transition-transform{transition-property:transform;transition-duration:.15s}.hover\:scale-105:hover{transform:scale(1.05)}.space-x-4>*+*{margin-left:1rem}.bg-green-500{background-color:#22c55e}.hover\:bg-green-600:hover{background-color:#16a34a}.card{background:rgba(255,255,255,.9);border-radius:1rem;padding:2rem;max-width:600px;width:90%;box-shadow:0 4px 10px rgba(0,0,0,.2)}.progress-bar{height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden}.progress-bar-fill{height:100%;background:#3b82f6;transition:width .3s ease}.text-xl{font-size:1.25rem;line-height:1.75rem}.space-y-3>*+*{margin-top:.75rem}.option-button{transition-property:all;transition-duration:.3s}.option-button:hover{background:#3b82f6;color:#fff;transform:scale(1.02)}.option-button.selected{background:#2563eb;color:#fff}.w-full{width:100%}.text-left{text-align:left}.p-3{padding:.75rem}.border{border-width:1px}.bg-white{background-color:#fff}.bg-gray-300{background-color:#d1d5db}.text-gray-800{color:#1f2937}.hover\:bg-gray-400:hover{background-color:#9ca3af}.text-gray-500{color:#6b7280}.cursor-not-allowed{cursor:not-allowed}.error-message{color:red;text-align:center;margin-top:1rem}.flex{display:flex}.justify-between{justify-content:space-between}.mt-6{margin-top:1.5rem}.result-bg{background:linear-gradient(to bottom,#a7f3d0,#34d399)}
+    *,::before,::after{box-sizing:border-box;border-width:0;border-style:solid;border-color:currentColor}html{line-height:1.5;-webkit-text-size-adjust:100%}body{margin:0;font-family:Arial,sans-serif;min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(to bottom,#e0f7fa,#80deea)}.text-center{text-align:center}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.font-bold{font-weight:700}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-2xl{font-size:1.5rem;line-height:2rem}.font-semibold{font-weight:600}.bg-blue-500{background-color:#3b82f6}.text-white{color:#fff}.px-8{padding-left:2rem;padding-right:2rem}.py-4{padding-top:1rem;padding-bottom:1rem}.rounded-lg{border-radius:.5rem}.hover\:bg-blue-600:hover{background-color:#2563eb}.transition-transform{transition-property:transform;transition-duration:.15s}.hover\:scale-105:hover{transform:scale(1.05)}.space-x-4>*+*{margin-left:1rem}.card{background:rgba(255,255,255,.9);border-radius:1rem;padding:2rem;max-width:600px;width:90%;box-shadow:0 4px 10px rgba(0,0,0,.2)}.progress-bar{height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden}.progress-bar-fill{height:100%;background:#3b82f6;transition:width .3s ease}.space-y-3>*+*{margin-top:.75rem}.option-button{transition-property:all;transition-duration:.3s}.option-button:hover{background:#3b82f6;color:#fff;transform:scale(1.02)}.option-button.selected{background:#2563eb;color:#fff}.w-full{width:100%}.text-left{text-align:left}.p-3{padding:.75rem}.border{border-width:1px}.bg-white{background-color:#fff}.bg-gray-300{background-color:#d1d5db}.text-gray-800{color:#1f2937}.hover\:bg-gray-400:hover{background-color:#9ca3af}.text-gray-500{color:#6b7280}.cursor-not-allowed{cursor:not-allowed}.error-message{color:red;text-align:center;margin-top:1rem}.flex{display:flex}.justify-between{justify-content:space-between}.justify-center{justify-content:center}.mt-6{margin-top:1.5rem}.w-1\/2{width:50%}.result-bg{background:linear-gradient(to bottom,#a7f3d0,#34d399)}
   </style>
 </head>
 <body>
   <div id="root"></div>
+  <!-- Основные CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.25.6/babel.min.js"></script>
+  <!-- Резервные CDN -->
+  <script>
+    if (!window.React) {
+      document.write('<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"><\/script>');
+    }
+    if (!window.ReactDOM) {
+      document.write('<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"><\/script>');
+    }
+    if (!window.Babel) {
+      document.write('<script src="https://unpkg.com/@babel/standalone@7.25.6/babel.min.js"><\/script>');
+    }
+  </script>
   <script type="text/babel">
+    // Проверка загрузки библиотек
+    if (!window.React || !window.ReactDOM || !window.Babel) {
+      document.getElementById('root').innerHTML = '<div class="card text-center"><p class="error-message">Ошибка загрузки библиотек. Проверьте интернет-соединение и обновите страницу.</p></div>';
+      throw new Error('Required libraries not loaded');
+    }
+
+    console.log('React:', !!window.React, 'ReactDOM:', !!window.ReactDOM, 'Babel:', !!window.Babel);
+
     const questions = [
       {
         question: "Как вы предпочитаете проводить свободное время?",
@@ -139,7 +121,7 @@
       {
         question: "Если бы вы могли на день превратиться в любое явление, вы бы стали…",
         options: [
-          "A. Умиротворён ным тихим лесом",
+          "A. Умиротворённым тихим лесом",
           "B. Громкой веселой компанией",
           "C. Тихим ручейком",
           "D. Вихрем эмоций и скорости"
@@ -154,6 +136,7 @@
       const [error, setError] = React.useState(null);
 
       React.useEffect(() => {
+        console.log('Current question:', currentQuestion);
         if (currentQuestion >= 0 && answers[currentQuestion]) {
           setSelectedOption(answers[currentQuestion]);
         } else {
@@ -164,73 +147,55 @@
         } else {
           document.body.classList.remove('result-bg');
         }
-      }, [currentQuestion, answers]);
+      }, [currentQuestion]);
 
       const startQuiz = () => {
-        try {
-          setCurrentQuestion(0);
-          setError(null);
-        } catch (e) {
-          setError("Ошибка при запуске теста");
-        }
+        setCurrentQuestion(0);
+        setError(null);
+        console.log('Quiz started');
       };
 
       const handleOptionSelect = (option) => {
-        try {
-          setSelectedOption(option);
-          setError(null);
-        } catch (e) {
-          setError("Ошибка при выборе ответа");
-        }
+        setSelectedOption(option);
+        setError(null);
+        console.log('Selected option:', option);
       };
 
       const handleNext = () => {
         if (selectedOption) {
-          try {
-            setAnswers({ ...answers, [currentQuestion]: selectedOption });
-            setSelectedOption(null);
-            setCurrentQuestion(currentQuestion + 1);
-            setError(null);
-          } catch (e) {
-            setError("Ошибка при переходе к следующему вопросу");
-          }
+          setAnswers({ ...answers, [currentQuestion]: selectedOption });
+          setSelectedOption(null);
+          setCurrentQuestion(currentQuestion + 1);
+          setError(null);
+          console.log('Next question:', currentQuestion + 1);
         } else {
           setError("Пожалуйста, выберите ответ");
         }
       };
 
       const handleBack = () => {
-        try {
-          setCurrentQuestion(currentQuestion - 1);
-          setError(null);
-        } catch (e) {
-          setError("Ошибка при возврате назад");
-        }
+        setCurrentQuestion(currentQuestion - 1);
+        setError(null);
+        console.log('Back to question:', currentQuestion - 1);
       };
 
       const handleFinish = () => {
         if (selectedOption) {
-          try {
-            setAnswers({ ...answers, [currentQuestion]: selectedOption });
-            setCurrentQuestion(questions.length);
-            setError(null);
-          } catch (e) {
-            setError("Ошибка при завершении теста");
-          }
+          setAnswers({ ...answers, [currentQuestion]: selectedOption });
+          setCurrentQuestion(questions.length);
+          setError(null);
+          console.log('Quiz finished');
         } else {
           setError("Пожалуйста, выберите ответ");
         }
       };
 
       const handleRestart = () => {
-        try {
-          setCurrentQuestion(-1);
-          setAnswers({});
-          setSelectedOption(null);
-          setError(null);
-        } catch (e) {
-          setError("Ошибка при перезапуске теста");
-        }
+        setCurrentQuestion(-1);
+        setAnswers({});
+        setSelectedOption(null);
+        setError(null);
+        console.log('Quiz restarted');
       };
 
       const progress = currentQuestion >= 0 && currentQuestion < questions.length
@@ -243,7 +208,7 @@
             <h1 className="text-3xl font-bold mb-4">Психологический тест: Найди свою природу</h1>
             <p className="mb-6">Ответь на 10 вопросов и узнай кое-что неожиданное о себе!</p>
             <button
-              className="start-button bg-blue-500 text-white px-6 py-3 rounded-lg text-lg hover:bg-blue-600 transition-transform"
+              className="start-button bg-blue-500 text-white px-8 py-4 rounded-lg text-2xl hover:bg-blue-600 transition-transform"
               onClick={startQuiz}
             >
               Начать тест
@@ -256,23 +221,15 @@
       if (currentQuestion >= questions.length) {
         return (
           <div className="card text-center">
-            <h1 className="text-3xl font-bold mb-4">Результат: У вас гиперфиксация на аттракционах! 🎢</h1>
-            <p className="mb-6">Рекомендованное лечение: посещение „Острова Мечты“</p>
-            <div className="flex justify-center space-x-4">
+            <h1 className="text-4xl font-bold mb-4">Результат: У вас гиперфиксация на аттракционах! 🎢</h1>
+            <p className="text-xl mb-6">Рекомендованное лечение: посещение „Острова Мечты“</p>
+            <div className="flex justify-center">
               <button
-                className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600"
+                className="bg-blue-500 text-white px-8 py-4 rounded-lg text-2xl hover:bg-blue-600"
                 onClick={handleRestart}
               >
                 Пройти заново 🔁
               </button>
-              <a
-                href="https://dreamisland.ru/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600"
-              >
-                Узнать, где находится парк 📍
-              </a>
             </div>
             {error && <p className="error-message">{error}</p>}
           </div>
@@ -298,29 +255,40 @@
             ))}
           </div>
           <div className="flex justify-between mt-6">
-            {currentQuestion > 0 && (
+            <div className="w-1/2">
+              {currentQuestion > 0 && (
+                <button
+                  className="bg-gray-300 text-gray-800 px-8 py-4 rounded-lg text-2xl hover:bg-gray-400 w-full"
+                  onClick={handleBack}
+                >
+                  Назад ⬅️
+                </button>
+              )}
+            </div>
+            <div className="w-1/2 flex justify-end">
               <button
-                className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400"
-                onClick={handleBack}
+                className={`px-8 py-4 rounded-lg text-2xl ${selectedOption ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-300 text-gray-500 cursor-not-allowed'} w-full`}
+                onClick={currentQuestion === questions.length - 1 ? handleFinish : handleNext}
+                disabled={!selectedOption}
               >
-                Назад ⬅️
+                {currentQuestion === questions.length - 1 ? 'Завершить' : 'Далее ➡️'}
               </button>
-            )}
-            <button
-              className={`px-4 py-2 rounded-lg ${selectedOption ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
-              onClick={currentQuestion === questions.length - 1 ? handleFinish : handleNext}
-              disabled={!selectedOption}
-            >
-              {currentQuestion === questions.length - 1 ? 'Завершить' : 'Далее ➡️'}
-            </button>
+            </div>
           </div>
           {error && <p className="error-message">{error}</p>}
         </div>
       );
     }
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<React.StrictMode><App /></React.StrictMode>);
+    // Рендеринг приложения
+    try {
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<App />);
+      console.log('App rendered successfully');
+    } catch (e) {
+      document.getElementById('root').innerHTML = '<div class="card text-center"><p class="error-message">Ошибка инициализации приложения. Проверьте консоль браузера.</p></div>';
+      console.error('Render error:', e);
+    }
   </script>
 </body>
 </html>
