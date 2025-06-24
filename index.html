@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Психологический тест: Найди свою природу</title>
   <style>
-    *,::before,::after{box-sizing:border-box;border-width:0;border-style:solid;border-color:currentColor}html{line-height:1.5;-webkit-text-size-adjust:100%}body{margin:0;font-family:Arial,sans-serif;min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(to bottom,#e0f7fa,#80deea);position:relative;overflow:auto}.text-center{text-align:center}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.font-bold{font-weight:700}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-2xl{font-size:1.5rem;line-height:2rem}.font-semibold{font-weight:600}.bg-blue-500{background-color:#3b82f6}.text-white{color:#fff}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.rounded-lg{border-radius:.5rem}.hover\:bg-blue-600:hover{background-color:#2563eb}.transition-transform{transition-property:transform;transition-duration:.15s}.hover\:scale-105:hover{transform:scale(1.05)}.card{background:rgba(255,255,255,.9);border-radius:1rem;padding:2rem;max-width:600px;width:90%;box-shadow:0 4px 10px rgba(0,0,0,.2);position:relative;z-index:20}.progress-bar{height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden}.progress-bar-fill{height:100%;background:#3b82f6;transition:width .3s ease}.space-y-3>*+*{margin-top:.75rem}.option-button{transition-property:all;transition-duration:.3s}.option-button:hover{background:#3b82f6;color:#fff;transform:scale(1.02)}.option-button.selected{background:#2563eb;color:#fff}.w-full{width:100%}.text-left{text-align:left}.p-3{padding:.75rem}.border{border-width:1px}.bg-white{background-color:#fff}.bg-gray-300{background-color:#d1d5db}.text-gray-800{color:#1f2937}.hover\:bg-gray-400:hover{background-color:#9ca3af}.text-gray-500{color:#6b7280}.cursor-not-allowed{cursor:not-allowed}.error-message{color:red;text-align:center;margin-top:1rem}.flex{display:flex}.justify-between{justify-content:space-between}.justify-center{justify-content:center}.mt-6{margin-top:1.5rem}.w-1\/2{width:50%}.result-bg{background:linear-gradient(to bottom,#a7f3d0,#34d399)}.floating-image{position:absolute;width:200px;height:200px;border-radius:50%;pointer-events:none;z-index:10;opacity:0.7;}
+    *,::before,::after{box-sizing:border-box;border-width:0;border-style:solid;border-color:currentColor}html{line-height:1.5;-webkit-text-size-adjust:100%}body{margin:0;font-family:Arial,sans-serif;min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(to bottom,#e0f7fa,#80deea);position:relative;overflow:auto}.text-center{text-align:center}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.font-bold{font-weight:700}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-2xl{font-size:1.5rem;line-height:2rem}.font-semibold{font-weight:600}.bg-blue-500{background-color:#3b82f6}.text-white{color:#fff}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.rounded-lg{border-radius:.5rem}.hover\:bg-blue-600:hover{background-color:#2563eb}.transition-transform{transition-property:transform;transition-duration:.15s}.hover\:scale-105:hover{transform:scale(1.05)}.card{background:rgba(255,255,255,.9);border-radius:1rem;padding:2rem;max-width:600px;width:90%;box-shadow:0 4px 10px rgba(0,0,0,.2);position:relative;z-index:20}.progress-bar{height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden}.progress-bar-fill{height:100%;background:#3b82f6;transition:width .3s ease}.space-y-3>*+*{margin-top:.75rem}.option-button{transition-property:all;transition-duration:.3s}.option-button:hover{background:#3b82f6;color:#fff;transform:scale(1.02)}.option-button.selected{background:#2563eb;color:#fff}.w-full{width:100%}.text-left{text-align:left}.p-3{padding:.75rem}.border{border-width:1px}.bg-white{background-color:#fff}.bg-gray-300{background-color:#d1d5db}.text-gray-800{color:#1f2937}.hover\:bg-gray-400:hover{background-color:#9ca3af}.text-gray-500{color:#6b7280}.cursor-not-allowed{cursor:not-allowed}.error-message{color:red;text-align:center;margin-top:1rem}.flex{display:flex}.justify-between{justify-content:space-between}.justify-center{justify-content:center}.mt-6{margin-top:1.5rem}.w-1\/2{width:50%}.result-bg{background:linear-gradient(to bottom,#a7f3d0,#34d399)}.floating-image{position:absolute;width:200px;height:200px;border-radius:50%;pointer-events:none;z-index:10;opacity:0.7;}.button-container{display:flex;justify-content:space-between;margin-top:1.5rem;gap:8px}.button-half{width:calc(50% - 4px)}
   </style>
 </head>
 <body>
@@ -27,11 +27,86 @@
     }
   </script>
   <script type="text/babel">
-    // Проверка загрузки библиотек
-    if (!window.React || !window.ReactDOM || !window.Babel) {
-      document.getElementById('root').innerHTML = '<div className="card text-center"><p className="error-message">Ошибка загрузки библиотек. Проверьте интернет-соединение и обновите страницу.</p></div>';
-      throw new Error('Required libraries not loaded');
-    }
+    // ==============================
+    // БЛОК АНИМАЦИИ КАРТИНОК (можно закомментировать)
+    // ==============================
+    let animationEnabled = true; // Флаг для включения/отключения анимации
+    
+    // Функция генерации случайных траекторий
+    const initFloatingAnimations = () => {
+      if (!animationEnabled) return;
+      
+      const images = document.querySelectorAll('.floating-image');
+      if (images.length === 0) return;
+      
+      const safeRadius = 30; // Безопасный радиус от центра (в %)
+      const centerX = 50;
+      const centerY = 50;
+      
+      images.forEach((img, index) => {
+        const animationName = `float-animation-${Date.now()}-${index}`;
+        const keyframes = generateKeyframes(safeRadius, centerX, centerY);
+        addKeyframes(animationName, keyframes);
+        
+        const duration = 15 + Math.random() * 10;
+        img.style.animation = `${animationName} ${duration}s infinite linear`;
+      });
+    };
+
+    // Генерация ключевых кадров анимации
+    const generateKeyframes = (safeRadius, centerX, centerY) => {
+      const keyframes = [];
+      const pointCount = 5;
+      
+      for (let i = 0; i < pointCount; i++) {
+        let left, top;
+        let inSafeZone = true;
+        let attempts = 0;
+        
+        // Генерируем точки вне безопасной зоны
+        do {
+          left = Math.random() * 100;
+          top = Math.random() * 100;
+          const dx = left - centerX;
+          const dy = top - centerY;
+          const distance = Math.sqrt(dx*dx + dy*dy);
+          inSafeZone = distance < safeRadius;
+          attempts++;
+        } while (inSafeZone && attempts < 100);
+        
+        keyframes.push({
+          position: `${i * (100/(pointCount-1))}%`,
+          left,
+          top
+        });
+      }
+      
+      // Замыкаем анимацию
+      keyframes.push({
+        position: '100%',
+        left: keyframes[0].left,
+        top: keyframes[0].top
+      });
+      
+      // Форматируем в CSS
+      return keyframes.map(k => `
+        ${k.position} {
+          left: ${k.left}%;
+          top: ${k.top}%;
+        }
+      `).join('');
+    };
+
+    // Добавление keyframes в документ
+    const addKeyframes = (name, keyframes) => {
+      const style = document.createElement('style');
+      style.setAttribute('data-floating-animation', 'true');
+      style.textContent = `@keyframes ${name} { ${keyframes} }`;
+      document.head.appendChild(style);
+    };
+    // ==============================
+    // КОНЕЦ БЛОКА АНИМАЦИИ
+    // ==============================
 
     const questions = [
       {
@@ -133,124 +208,34 @@
       const [error, setError] = React.useState(null);
       const [animationInitialized, setAnimationInitialized] = React.useState(false);
 
-      // Функция для генерации случайных траекторий
-      const initFloatingAnimations = React.useCallback(() => {
-        // Удаляем старые анимации
-        const oldStyles = document.querySelectorAll('style[data-floating-animation]');
-        oldStyles.forEach(style => style.remove());
-        
-        const images = document.querySelectorAll('.floating-image');
-        if (images.length === 0) return;
-        
-        const safeRadius = 30; // Безопасный радиус от центра (в %)
-        
-        images.forEach((img, index) => {
-          const animationName = `float-animation-${Date.now()}-${index}`;
-          const keyframes = generateKeyframes(safeRadius);
-          addKeyframes(animationName, keyframes);
-          
-          const duration = 15 + Math.random() * 10;
-          img.style.animation = `${animationName} ${duration}s infinite linear`;
-          img.style.opacity = '0.7';
-        });
-        
-        setAnimationInitialized(true);
-      }, []);
-
-      // Генерация ключевых кадров с избеганием центра
-      const generateKeyframes = (safeRadius) => {
-        const keyframes = [];
-        const pointCount = 5;
-        
-        for (let i = 0; i < pointCount; i++) {
-          let left, top;
-          let inSafeZone = true;
-          let attempts = 0;
-          
-          // Генерируем точки вне безопасной зоны
-          do {
-            left = Math.random() * 100;
-            top = Math.random() * 100;
-            const dx = left - 50;
-            const dy = top - 50;
-            const distance = Math.sqrt(dx*dx + dy*dy);
-            inSafeZone = distance < safeRadius;
-            attempts++;
-          } while (inSafeZone && attempts < 100);
-          
-          // Если не удалось найти точку вне зоны - размещаем на границе
-          if (inSafeZone) {
-            const angle = Math.random() * Math.PI * 2;
-            left = 50 + safeRadius * Math.cos(angle);
-            top = 50 + safeRadius * Math.sin(angle);
-          }
-          
-          keyframes.push({
-            position: `${i * (100/(pointCount-1))}%`,
-            left,
-            top
-          });
-        }
-        
-        // Замыкаем анимацию (последняя точка = первой)
-        keyframes.push({
-          position: '100%',
-          left: keyframes[0].left,
-          top: keyframes[0].top
-        });
-        
-        // Форматируем в CSS
-        return keyframes.map(k => `
-          ${k.position} {
-            left: ${k.left}%;
-            top: ${k.top}%;
-          }
-        `).join('');
-      };
-
-      // Добавление keyframes в документ
-      const addKeyframes = (name, keyframes) => {
-        const style = document.createElement('style');
-        style.setAttribute('data-floating-animation', 'true');
-        style.textContent = `@keyframes ${name} { ${keyframes} }`;
-        document.head.appendChild(style);
-      };
-
       React.useEffect(() => {
-        if (currentQuestion >= questions.length && !animationInitialized) {
-          initFloatingAnimations();
+        if (currentQuestion >= 0 && answers[currentQuestion]) {
+          setSelectedOption(answers[currentQuestion]);
+        } else {
+          setSelectedOption(null);
         }
-        
-        // Переинициализация при изменении размера окна
-        const handleResize = () => {
-          if (currentQuestion >= questions.length) {
-            initFloatingAnimations();
-          }
-        };
-        
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-      }, [currentQuestion, animationInitialized, initFloatingAnimations]);
-
-      React.useEffect(() => {
         if (currentQuestion >= questions.length) {
           document.body.classList.add('result-bg');
+          // Инициализация анимации с задержкой для гарантии рендера картинок
+          setTimeout(() => {
+            if (animationEnabled && !animationInitialized) {
+              initFloatingAnimations();
+              setAnimationInitialized(true);
+            }
+          }, 100);
         } else {
           document.body.classList.remove('result-bg');
-          setAnimationInitialized(false);
         }
       }, [currentQuestion]);
 
       const startQuiz = () => {
         setCurrentQuestion(0);
         setError(null);
-        console.log('Quiz started');
       };
 
       const handleOptionSelect = (option) => {
         setSelectedOption(option);
         setError(null);
-        console.log('Selected option:', option);
       };
 
       const handleNext = () => {
@@ -259,7 +244,6 @@
           setSelectedOption(null);
           setCurrentQuestion(currentQuestion + 1);
           setError(null);
-          console.log('Next question:', currentQuestion + 1);
         } else {
           setError("Пожалуйста, выберите ответ");
         }
@@ -268,7 +252,6 @@
       const handleBack = () => {
         setCurrentQuestion(currentQuestion - 1);
         setError(null);
-        console.log('Back to question:', currentQuestion - 1);
       };
 
       const handleFinish = () => {
@@ -276,7 +259,6 @@
           setAnswers({ ...answers, [currentQuestion]: selectedOption });
           setCurrentQuestion(questions.length);
           setError(null);
-          console.log('Quiz finished');
         } else {
           setError("Пожалуйста, выберите ответ");
         }
@@ -287,7 +269,7 @@
         setAnswers({});
         setSelectedOption(null);
         setError(null);
-        console.log('Quiz restarted');
+        setAnimationInitialized(false);
       };
 
       const progress = currentQuestion >= 0 && currentQuestion < questions.length
@@ -350,10 +332,17 @@
               </button>
             </div>
             {error && <p className="error-message">{error}</p>}
-            {/* Изображения с уникальными ключами для переинициализации */}
-            <img key={`img-${Date.now()}-1`} src="/Tymbus/Thrill-Type-Test/images/floating-image.png" className="floating-image" alt="Floating decoration" />
-            <img key={`img-${Date.now()}-2`} src="/Tymbus/Thrill-Type-Test/images/floating-image.png" className="floating-image" alt="Floating decoration" />
-            <img key={`img-${Date.now()}-3`} src="/Tymbus/Thrill-Type-Test/images/floating-image.png" className="floating-image" alt="Floating decoration" />
+            
+            {/* Градиентные круги вместо изображений */}
+            <div className="floating-image" style={{ 
+              background: 'radial-gradient(circle, #3b82f6, transparent 70%)' 
+            }}></div>
+            <div className="floating-image" style={{ 
+              background: 'radial-gradient(circle, #34d399, transparent 70%)' 
+            }}></div>
+            <div className="floating-image" style={{ 
+              background: 'radial-gradient(circle, #f97316, transparent 70%)' 
+            }}></div>
           </div>
         );
       }
@@ -376,8 +365,8 @@
               </button>
             ))}
           </div>
-          <div className="flex justify-between mt-6">
-            <div className="w-1/2">
+          <div className="button-container">
+            <div className="button-half">
               {currentQuestion > 0 && (
                 <button
                   className="bg-gray-300 text-gray-800 px-4 py-3 rounded-lg text-xl hover:bg-gray-400 w-full"
@@ -387,7 +376,7 @@
                 </button>
               )}
             </div>
-            <div className="w-1/2 flex justify-end">
+            <div className="button-half">
               <button
                 className={`px-4 py-3 rounded-lg text-xl ${selectedOption ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-300 text-gray-500 cursor-not-allowed'} w-full`}
                 onClick={currentQuestion === questions.length - 1 ? handleFinish : handleNext}
